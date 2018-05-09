@@ -27,4 +27,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     api 'com.gelitenight.waveview:waveview:1.0.0'
+    api 'com.google.firebase:firebase-firestore:16.0.0'
 }
+apply plugin: 'com.google.gms.google-services'

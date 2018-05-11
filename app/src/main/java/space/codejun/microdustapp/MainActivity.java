@@ -26,14 +26,17 @@ public class MainActivity extends AppCompatActivity {
 
     private static String TAG = "MainActivity";
 
+    private ArcProgress pm25Progress;
+    private ArcProgress pm10Progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        final ArcProgress pm25Progress = findViewById(R.id.pm25_progress);
-        final ArcProgress pm10Prograss = findViewById(R.id.pm10_progress);
+        pm25Progress = findViewById(R.id.pm25_progress);
+        pm10Progress = findViewById(R.id.pm10_progress);
 
         final DocumentReference docRef = db.collection("AirCondition").document("MicroDust");
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -51,12 +54,18 @@ public class MainActivity extends AppCompatActivity {
                     // cutNumber(String.valueOf(snapshot.getData()));
                     String pm25 = snapshot.getString("pm_25");
                     String pm10 = snapshot.getString("pm_10");
-                    pm25Progress.setProgress(Integer.parseInt(pm25));
-                    pm10Prograss.setProgress(Integer.parseInt(pm10));
+
+                    initProgress(pm25, pm10);
                 } else {
                     Log.d(TAG, "Current data: null");
                 }
             }
         });
+    }
+
+    public void initProgress(String pm25, String pm10) {
+
+        pm25Progress.setProgress(Integer.parseInt(pm25));
+        pm10Progress.setProgress(Integer.parseInt(pm10));
     }
 }

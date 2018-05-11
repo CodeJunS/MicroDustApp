@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
     private int mBorderColor = Color.parseColor("#44FFFFFF");
     private int mBorderWidth = 5;
-    private int waterLevel = 15;
 
     private WaveView waveView;
 
@@ -40,22 +39,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        TextView textView = findViewById(R.id.dust);
-
-        db.collection("pm2_5")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
+        waveView = findViewById(R.id.wave);
+        mWaveHelper = new WaveHelper(waveView);
+        final TextView textView = findViewById(R.id.dust);
 
         final DocumentReference docRef = db.collection("pm2_5").document("FpvuP0Plq2vmk8FSWMEh");
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -68,30 +54,32 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (snapshot != null && snapshot.exists()) {
-                    Log.d(TAG, "Current data: " + snapshot.getData());
-                    String data = String.valueOf(snapshot.getData());
-                    int idx = data.indexOf("=");
-                    String data2 = data.substring(idx+1);
-                    Log.d("CUT", data2);
+                    Log.d(TAG, "Current data: " + snapshot.getString("pm2_5"));
+                    // cutNumber(String.valueOf(snapshot.getData()));
+                    String dust = snapshot.getString("pm2_5");
+                    textView.setText(dust);
+                    loadDustLevel(Integer.valueOf(dust));
                 } else {
                     Log.d(TAG, "Current data: null");
                 }
             }
         });
-
-        waveView = findViewById(R.id.wave);
-        mWaveHelper = new WaveHelper(waveView);
-
-        loadDustLevel();
     }
 
-    public void loadDustLevel() {
+    public void loadDustLevel(Integer level) {
         waveView.setShapeType(WaveView.ShapeType.CIRCLE);
         waveView.setBorder(mBorderWidth, mBorderColor);
         waveView.setWaveColor(Color.parseColor("#3F51B5"), Color.parseColor("#303F9F"));
+        Log.d("RATIO", String.valueOf(waveView.getWaterLevelRatio()));
 
-        if (waterLevel <= 15) {
+        if (level <= 15) {
             waveView.setWaveColor(Color.parseColor("#69F0AE"), Color.parseColor("#00E676"));
+            waveView.setWaterLevelRatio(0.2f);
+        } else if (level > 16) {
+            waveView.setWaterLevelRatio(0.5f);
+        }
+        if (level > 30) {
+            waveView.setWaterLevelRatio(0.8f);
         }
     }
 

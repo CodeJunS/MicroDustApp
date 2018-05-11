@@ -63,9 +63,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void initProgress(String pm25, String pm10) {
+    public void initProgress(String pm_25, String pm_10) {
 
-        pm25Progress.setProgress(Integer.parseInt(pm25));
-        pm10Progress.setProgress(Integer.parseInt(pm10));
+        int pm25 = Integer.parseInt(pm_25);
+        int pm10 = Integer.parseInt(pm_10);
+
+        if (0 <= pm25 && pm25 <= 15) {
+            pm25Progress.setFinishedStrokeColor(Color.parseColor("#00B0FF"));
+            pm25Progress.setTextColor(Color.parseColor("#00B0FF"));
+        } else if (15 < pm25 && pm25 <= 35) {
+            pm25Progress.setFinishedStrokeColor(Color.parseColor("#00E676"));
+            pm25Progress.setTextColor(Color.parseColor("#00E676"));
+        } else if (35 < pm25 && pm25 <= 75) {
+            pm25Progress.setFinishedStrokeColor(Color.parseColor("#FF9100"));
+            pm25Progress.setTextColor(Color.parseColor("#FF9100"));
+        } else if (75 < pm25) {
+            pm25Progress.setFinishedStrokeColor(Color.parseColor("#FF1744"));
+            pm25Progress.setTextColor(Color.parseColor("#FF1744"));
+        }
+        pm25Progress.setProgress(pm25);
+        pm10Progress.setProgress(pm10);
     }
 }

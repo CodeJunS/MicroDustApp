@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -31,9 +32,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        final TextView textView = findViewById(R.id.dust);
+        final ArcProgress pm25Progress = findViewById(R.id.pm25_progress);
+        final ArcProgress pm10Prograss = findViewById(R.id.pm10_progress);
 
-        final DocumentReference docRef = db.collection("pm2_5").document("FpvuP0Plq2vmk8FSWMEh");
+        final DocumentReference docRef = db.collection("AirCondition").document("MicroDust");
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
@@ -44,10 +46,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (snapshot != null && snapshot.exists()) {
-                    Log.d(TAG, "Current data: " + snapshot.getString("pm2_5"));
+                    Log.d(TAG, "Current PM 2.5: " + snapshot.getString("pm_25"));
+                    Log.d(TAG, "Current PM 10: " + snapshot.getString("pm_10"));
                     // cutNumber(String.valueOf(snapshot.getData()));
-                    String dust = snapshot.getString("pm2_5");
-                    textView.setText(dust);
+                    String pm25 = snapshot.getString("pm_25");
+                    String pm10 = snapshot.getString("pm_10");
+                    pm25Progress.setProgress(Integer.parseInt(pm25));
+                    pm10Prograss.setProgress(Integer.parseInt(pm10));
                 } else {
                     Log.d(TAG, "Current data: null");
                 }

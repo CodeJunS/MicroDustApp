@@ -8,24 +8,52 @@
     android:weightSum="1"
     tools:context=".MainActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.4">
+        android:layout_weight="0.4"
+        android:orientation="horizontal">
 
-        <com.github.lzyzsd.circleprogress.ArcProgress xmlns:custom="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/arc_progress"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginLeft="50dp"
-            custom:arc_bottom_text="PM 2.5"
-            custom:arc_finished_color="@color/colorPrimary"
-            custom:arc_max="76"
-            custom:arc_progress="39"
-            custom:arc_suffix_text_size="0.0dp"
-            custom:arc_unfinished_color="@color/colorAccent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
 
-    </RelativeLayout>
+            <com.github.lzyzsd.circleprogress.ArcProgress xmlns:custom="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/pm25_progress"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                custom:arc_bottom_text="PM 2.5"
+                custom:arc_finished_color="@color/colorPrimary"
+                custom:arc_max="76"
+                custom:arc_progress="39"
+                custom:arc_stroke_width="6dp"
+                custom:arc_suffix_text_size="0.0dp"
+                custom:arc_unfinished_color="@color/colorAccent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <com.github.lzyzsd.circleprogress.ArcProgress xmlns:custom="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/pm10_progress"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                custom:arc_bottom_text="PM 10"
+                custom:arc_finished_color="@color/colorPrimary"
+                custom:arc_max="151"
+                custom:arc_progress="66"
+                custom:arc_stroke_width="6dp"
+                custom:arc_suffix_text_size="0.0dp"
+                custom:arc_unfinished_color="@color/colorAccent" />
+
+        </LinearLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

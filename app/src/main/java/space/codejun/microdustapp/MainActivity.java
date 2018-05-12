@@ -39,26 +39,23 @@ public class MainActivity extends AppCompatActivity {
         pm10Progress = findViewById(R.id.pm10_progress);
 
         final DocumentReference docRef = db.collection("AirCondition").document("MicroDust");
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
+        docRef.addSnapshotListener((snapshot, e) -> {
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e);
+                return;
+            }
 
-                if (snapshot != null && snapshot.exists()) {
-                    Log.d(TAG, "Current PM 2.5: " + snapshot.getString("pm_25"));
-                    Log.d(TAG, "Current PM 10: " + snapshot.getString("pm_10"));
-                    // cutNumber(String.valueOf(snapshot.getData()));
-                    String pm25 = snapshot.getString("pm_25");
-                    String pm10 = snapshot.getString("pm_10");
+            if (snapshot != null && snapshot.exists()) {
+                Log.d(TAG, "Current PM 2.5: " + snapshot.getString("pm_25"));
+                Log.d(TAG, "Current PM 10: " + snapshot.getString("pm_10"));
 
-                    initProgress(pm25, pm10);
-                } else {
-                    Log.d(TAG, "Current data: null");
-                }
+                float nNumber = Float.parseFloat(snapshot.getString("pm_25"));
+                String pm25 = String.format("%.0f", nNumber);
+                String pm10 = "0";
+
+                initProgress(pm25, pm10);
+            } else {
+                Log.d(TAG, "Current data: null");
             }
         });
     }

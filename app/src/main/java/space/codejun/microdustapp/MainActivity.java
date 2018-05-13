@@ -12,7 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.gelitenight.waveview.library.WaveView;
+import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -24,15 +24,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class MainActivity extends AppCompatActivity {
 
-    private WaveHelper mWaveHelper;
-
     private static String TAG = "MainActivity";
 
-    private int mBorderColor = Color.parseColor("#44FFFFFF");
-    private int mBorderWidth = 5;
-    private int waterLevel = 15;
-
-    private WaveView waveView;
+    private ArcProgress pm25Progress;
+    private ArcProgress pm10Progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,70 +35,50 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        TextView textView = findViewById(R.id.dust);
+        pm25Progress = findViewById(R.id.pm25_progress);
+        pm10Progress = findViewById(R.id.pm10_progress);
 
-        db.collection("pm2_5")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
+        final DocumentReference docRef = db.collection("AirCondition").document("MicroDust");
+        docRef.addSnapshotListener((snapshot, e) -> {
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e);
+                return;
+            }
 
-        final DocumentReference docRef = db.collection("pm2_5").document("FpvuP0Plq2vmk8FSWMEh");
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
+            if (snapshot != null && snapshot.exists()) {
+                Log.d(TAG, "Current PM 2.5: " + snapshot.getString("pm_25"));
+                Log.d(TAG, "Current PM 10: " + snapshot.getString("pm_10"));
 
-                if (snapshot != null && snapshot.exists()) {
-                    Log.d(TAG, "Current data: " + snapshot.getData());
-                    String data = String.valueOf(snapshot.getData());
-                    int idx = data.indexOf("=");
-                    String data2 = data.substring(idx+1);
-                    Log.d("CUT", data2);
-                } else {
-                    Log.d(TAG, "Current data: null");
-                }
+                float nNumber = Float.parseFloat(snapshot.getString("pm_25"));
+                String pm25 = String.format("%.0f", nNumber);
+                String pm10 = "0"; //nothing here
+
+                initProgress(pm25, pm10);
+            } else {
+                Log.d(TAG, "Current data: null");
             }
         });
-
-        waveView = findViewById(R.id.wave);
-        mWaveHelper = new WaveHelper(waveView);
-
-        loadDustLevel();
     }
 
-    public void loadDustLevel() {
-        waveView.setShapeType(WaveView.ShapeType.CIRCLE);
-        waveView.setBorder(mBorderWidth, mBorderColor);
-        waveView.setWaveColor(Color.parseColor("#3F51B5"), Color.parseColor("#303F9F"));
+    public void initProgress(String pm_25, String pm_10) {
 
-        if (waterLevel <= 15) {
-            waveView.setWaveColor(Color.parseColor("#69F0AE"), Color.parseColor("#00E676"));
+        int pm25 = Integer.parseInt(pm_25);
+        int pm10 = Integer.parseInt(pm_10);
+
+        if (0 <= pm25 && pm25 <= 15) {
+            pm25Progress.setFinishedStrokeColor(Color.parseColor("#00B0FF"));
+            pm25Progress.setTextColor(Color.parseColor("#00B0FF"));
+        } else if (15 < pm25 && pm25 <= 35) {
+            pm25Progress.setFinishedStrokeColor(Color.parseColor("#00E676"));
+            pm25Progress.setTextColor(Color.parseColor("#00E676"));
+        } else if (35 < pm25 && pm25 <= 75) {
+            pm25Progress.setFinishedStrokeColor(Color.parseColor("#FF9100"));
+            pm25Progress.setTextColor(Color.parseColor("#FF9100"));
+        } else if (75 < pm25) {
+            pm25Progress.setFinishedStrokeColor(Color.parseColor("#FF1744"));
+            pm25Progress.setTextColor(Color.parseColor("#FF1744"));
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mWaveHelper.cancel();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mWaveHelper.start();
+        pm25Progress.setProgress(pm25);
+        pm10Progress.setProgress(pm10);
     }
 }

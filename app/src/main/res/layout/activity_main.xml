@@ -8,33 +8,52 @@
     android:weightSum="1"
     tools:context=".MainActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.4">
-
-        <com.gelitenight.waveview.library.WaveView
-            android:id="@+id/wave"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_centerInParent="true" />
+        android:layout_weight="0.4"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_centerInParent="true">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
 
-            <TextView
-                android:id="@+id/dust"
-                android:text="15"
-                android:textStyle="bold"
-                android:textSize="45sp"
-                android:textColor="@android:color/white"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            <com.github.lzyzsd.circleprogress.ArcProgress xmlns:custom="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/pm25_progress"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                custom:arc_bottom_text="PM 2.5"
+                custom:arc_finished_color="@color/colorPrimary"
+                custom:arc_max="76"
+                custom:arc_progress="39"
+                custom:arc_stroke_width="6dp"
+                custom:arc_suffix_text_size="0.0dp"
+                custom:arc_unfinished_color="@android:color/darker_gray" />
+
         </LinearLayout>
-    </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <com.github.lzyzsd.circleprogress.ArcProgress xmlns:custom="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/pm10_progress"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                custom:arc_bottom_text="PM 10"
+                custom:arc_finished_color="@color/colorPrimary"
+                custom:arc_max="151"
+                custom:arc_progress="66"
+                custom:arc_stroke_width="6dp"
+                custom:arc_suffix_text_size="0.0dp"
+                custom:arc_unfinished_color="@android:color/darker_gray" />
+
+        </LinearLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

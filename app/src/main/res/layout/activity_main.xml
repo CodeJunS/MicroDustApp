@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="8dp"
     android:weightSum="1"
     tools:context=".MainActivity">
 
@@ -53,6 +54,125 @@
                 custom:arc_unfinished_color="@android:color/darker_gray" />
 
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingRight="2dp">
+
+            <View
+                android:id="@+id/line_blue"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/good" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/line_blue"
+                android:text="좋음" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/line_blue"
+                android:text="~15" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp">
+
+            <View
+                android:id="@+id/line_green"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/line_green"
+                android:text="보통" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/line_green"
+                android:text="~35" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp">
+
+            <View
+                android:id="@+id/line_yellow"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/bad" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/line_yellow"
+                android:text="나쁨" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/line_yellow"
+                android:text="~75" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="2dp">
+
+            <View
+                android:id="@+id/line_red"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/fuck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/line_red"
+                android:text="매우나쁨" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/line_red"
+                android:text="76~" />
+        </RelativeLayout>
     </LinearLayout>
 
     <RelativeLayout

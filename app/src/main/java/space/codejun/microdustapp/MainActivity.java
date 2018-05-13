@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
                 float nNumber = Float.parseFloat(snapshot.getString("pm_25"));
                 String pm25 = String.format("%.0f", nNumber);
-                String pm10 = "0"; //nothing here
+                String pm10 = snapshot.getString("pm_10");
 
                 initProgress(pm25, pm10);
             } else {
@@ -64,6 +64,20 @@ public class MainActivity extends AppCompatActivity {
         } else if (75 < pm25) {
             pm25Progress.setFinishedStrokeColor(Color.parseColor("#FF1744"));
             pm25Progress.setTextColor(Color.parseColor("#FF1744"));
+        }
+
+        if (0 <= pm10 && pm10 <= 30) {
+            pm10Progress.setFinishedStrokeColor(Color.parseColor("#00B0FF"));
+            pm10Progress.setTextColor(Color.parseColor("#00B0FF"));
+        } else if (30 < pm10 && pm10 <= 80) {
+            pm10Progress.setFinishedStrokeColor(Color.parseColor("#00E676"));
+            pm10Progress.setTextColor(Color.parseColor("#00E676"));
+        } else if (80 < pm10 && pm10 <= 150) {
+            pm10Progress.setFinishedStrokeColor(Color.parseColor("#FF9100"));
+            pm10Progress.setTextColor(Color.parseColor("#FF9100"));
+        } else if (150 < pm10) {
+            pm10Progress.setFinishedStrokeColor(Color.parseColor("#FF1744"));
+            pm10Progress.setTextColor(Color.parseColor("#FF1744"));
         }
         pm25Progress.setProgress(pm25);
         pm10Progress.setProgress(pm10);

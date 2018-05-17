@@ -52,34 +52,47 @@ public class MainActivity extends AppCompatActivity {
         int pm25 = Integer.parseInt(pm_25);
         int pm10 = Integer.parseInt(pm_10);
 
+        pm25Progress.setMax(76);
+        pm10Progress.setMax(151);
+
         if (0 <= pm25 && pm25 <= 15) {
             pm25Progress.setFinishedStrokeColor(Color.parseColor("#00B0FF"));
             pm25Progress.setTextColor(Color.parseColor("#00B0FF"));
+            pm25Progress.setProgress(pm25);
         } else if (15 < pm25 && pm25 <= 35) {
             pm25Progress.setFinishedStrokeColor(Color.parseColor("#00E676"));
             pm25Progress.setTextColor(Color.parseColor("#00E676"));
+            pm25Progress.setProgress(pm25);
         } else if (35 < pm25 && pm25 <= 75) {
             pm25Progress.setFinishedStrokeColor(Color.parseColor("#FF9100"));
             pm25Progress.setTextColor(Color.parseColor("#FF9100"));
+            pm25Progress.setProgress(pm25);
         } else if (75 < pm25) {
             pm25Progress.setFinishedStrokeColor(Color.parseColor("#FF1744"));
             pm25Progress.setTextColor(Color.parseColor("#FF1744"));
+            pm25Progress.setMax(pm25);
+            pm25Progress.setProgress(pm25Progress.getMax());
         }
 
         if (0 <= pm10 && pm10 <= 30) {
             pm10Progress.setFinishedStrokeColor(Color.parseColor("#00B0FF"));
             pm10Progress.setTextColor(Color.parseColor("#00B0FF"));
+            pm10Progress.setProgress(pm10);
         } else if (30 < pm10 && pm10 <= 80) {
             pm10Progress.setFinishedStrokeColor(Color.parseColor("#00E676"));
             pm10Progress.setTextColor(Color.parseColor("#00E676"));
+            pm10Progress.setProgress(pm10);
         } else if (80 < pm10 && pm10 <= 150) {
             pm10Progress.setFinishedStrokeColor(Color.parseColor("#FF9100"));
             pm10Progress.setTextColor(Color.parseColor("#FF9100"));
+            pm10Progress.setProgress(pm10);
         } else if (150 < pm10) {
             pm10Progress.setFinishedStrokeColor(Color.parseColor("#FF1744"));
             pm10Progress.setTextColor(Color.parseColor("#FF1744"));
+            pm10Progress.setMax(pm10);
+            pm10Progress.setProgress(pm10Progress.getMax());
         }
-        pm25Progress.setProgress(pm25);
-        pm10Progress.setProgress(pm10);
+        //pm25Progress.setProgress(pm25);
+        //pm10Progress.setProgress(pm10);
     }
 }

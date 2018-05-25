@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Current PM 2.5: " + snapshot.getString("pm_25"));
                 Log.d(TAG, "Current PM 10: " + snapshot.getString("pm_10"));
 
-                float nNumber = Float.parseFloat(snapshot.getString("pm_25"));
-                String pm25 = String.format("%.0f", nNumber);
+                String pm25 = snapshot.getString("pm_25");
                 String pm10 = snapshot.getString("pm_10");
 
                 initProgress(pm25, pm10);
